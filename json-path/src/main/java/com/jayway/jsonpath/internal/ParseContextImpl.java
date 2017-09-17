@@ -4,8 +4,6 @@ import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.ParseContext;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -55,17 +53,6 @@ public class ParseContextImpl implements ParseContext {
         }
     }
 
-    @Override
-    public DocumentContext parse(File json) throws IOException {
-        notNull(json, "json file can not be null");
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(json);
-            return parse(fis);
-        } finally {
-            Utils.closeQuietly(fis);
-        }
-    }
 
     @Override
     public DocumentContext parse(URL url) throws IOException {

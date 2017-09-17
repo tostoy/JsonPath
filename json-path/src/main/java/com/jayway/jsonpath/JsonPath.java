@@ -23,8 +23,6 @@ import com.jayway.jsonpath.internal.Utils;
 import com.jayway.jsonpath.internal.path.PathCompiler;
 import com.jayway.jsonpath.spi.json.JsonProvider;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -358,43 +356,8 @@ public class JsonPath {
         return read(jsonURL, Configuration.defaultConfiguration());
     }
 
-    /**
-     * Applies this JsonPath to the provided json file
-     *
-     * @param jsonFile file to read from
-     * @param <T>      expected return type
-     * @return list of objects matched by the given path
-     * @throws IOException
-     */
-    @SuppressWarnings({"unchecked"})
-    public <T> T read(File jsonFile) throws IOException {
-        return read(jsonFile, Configuration.defaultConfiguration());
-    }
 
 
-    /**
-     * Applies this JsonPath to the provided json file
-     *
-     * @param jsonFile      file to read from
-     * @param configuration configuration to use
-     * @param <T>           expected return type
-     * @return list of objects matched by the given path
-     * @throws IOException
-     */
-    @SuppressWarnings({"unchecked"})
-    public <T> T read(File jsonFile, Configuration configuration) throws IOException {
-        notNull(jsonFile, "json file can not be null");
-        isTrue(jsonFile.exists(), "json file does not exist");
-        notNull(configuration, "jsonProvider can not be null");
-
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(jsonFile);
-            return read(fis, configuration);
-        } finally {
-            Utils.closeQuietly(fis);
-        }
-    }
 
     /**
      * Applies this JsonPath to the provided json input stream
@@ -521,20 +484,6 @@ public class JsonPath {
     /**
      * Creates a new JsonPath and applies it to the provided Json object
      *
-     * @param jsonFile json file
-     * @param jsonPath the json path
-     * @param filters  filters to be applied to the filter place holders  [?] in the path
-     * @param <T>      expected return type
-     * @return list of objects matched by the given path
-     */
-    @SuppressWarnings({"unchecked"})
-    public static <T> T read(File jsonFile, String jsonPath, Predicate... filters) throws IOException {
-        return new ParseContextImpl().parse(jsonFile).read(jsonPath, filters);
-    }
-
-    /**
-     * Creates a new JsonPath and applies it to the provided Json object
-     *
      * @param jsonInputStream json input stream
      * @param jsonPath        the json path
      * @param filters         filters to be applied to the filter place holders  [?] in the path
@@ -614,17 +563,6 @@ public class JsonPath {
      * Parses the given JSON input using the default {@link Configuration} and
      * returns a {@link DocumentContext} for path evaluation
      *
-     * @param json file
-     * @return a read context
-     */
-    public static DocumentContext parse(File json) throws IOException {
-        return new ParseContextImpl().parse(json);
-    }
-
-    /**
-     * Parses the given JSON input using the default {@link Configuration} and
-     * returns a {@link DocumentContext} for path evaluation
-     *
      * @param json url
      * @return a read context
      */
@@ -662,17 +600,6 @@ public class JsonPath {
      * @return a read context
      */
     public static DocumentContext parse(InputStream json, Configuration configuration) {
-        return new ParseContextImpl(configuration).parse(json);
-    }
-
-    /**
-     * Parses the given JSON input using the provided {@link Configuration} and
-     * returns a {@link DocumentContext} for path evaluation
-     *
-     * @param json input
-     * @return a read context
-     */
-    public static DocumentContext parse(File json, Configuration configuration) throws IOException {
         return new ParseContextImpl(configuration).parse(json);
     }
 
