@@ -9,6 +9,8 @@ import com.jayway.jsonpath.internal.function.numeric.StandardDeviation;
 import com.jayway.jsonpath.internal.function.numeric.Sum;
 import com.jayway.jsonpath.internal.function.text.Concatenate;
 import com.jayway.jsonpath.internal.function.text.Length;
+import com.jayway.jsonpath.internal.function.text.StringMax;
+import com.jayway.jsonpath.internal.function.text.StringMin;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -40,6 +42,8 @@ public class PathFunctionFactory {
 
         // Text Functions
         map.put("concat", Concatenate.class);
+        map.put("strmax", StringMax.class);
+        map.put("strmin", StringMin.class);
 
         // JSON Entity Functions
         map.put("length", Length.class);
